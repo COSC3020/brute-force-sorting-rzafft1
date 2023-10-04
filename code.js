@@ -17,30 +17,55 @@ function checkSort(a)
     return true
 }
 
-function permutationSort (a, index, numPermutations)
+function getPermutations (a, index, permutations)
 {
     if (index == a.length)
     {
+        permutations.push([...a])
         console.log(a)
         if (checkSort(a) == true)
         {
-            console.log("found")
+            console.log("found sorted vector '" + a + "' ...")
         }     
-        return numPermutations + 1
     }
     else 
     {
         for (var i = index; i < a.length; i++)
         {
             swap(a, index, i)
-            numPermutations = permutationSort(a, index+1, numPermutations)
+            getPermutations(a, index+1, permutations)
             swap(a, index, i)
         } 
-        return numPermutations
     }
-
+    return permutations
 }
 
-let arr = [4, 3, 1, 2]
+function permutationSort (a)
+{
+    let permutations = []
+    let perms = getPermutations(a,0, permutations)
+    let permAt = 0
+    for (permAt; permAt < perms.length; permAt++) 
+    {
+        if (checkSort(perms[permAt]) == true)
+        {
+            for (let j = 0; j < perms[permAt].length; j++)
+            {
+                a[j] = perms[permAt][j]
+            }
+            return permAt
+        } 
+    }
+}
+
+let arr = [1, 3, 6, 7, 4, 5]
 //let arr = [1, 3, 2]
-console.log(permutationSort(arr,0,0))
+x = permutationSort(arr)
+console.log("arr : " + arr  + " after " + x + " permutations")
+
+
+
+
+
+
+
